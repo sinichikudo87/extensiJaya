@@ -1,4 +1,5 @@
-@import 'tailwindcss';
+@import "tailwindcss";
+@import "tom-select/dist/css/tom-select.bootstrap5.css";
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -6,13 +7,110 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans:
+        "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
+}
+
+body {
+    background: #1f2937;
+    color: #e5e7eb;
+}
+
+/* Sidebar */
+#sidebar {
+    width: 16rem;
+    transition:
+        width 0.3s,
+        box-shadow 0.3s;
+    border-radius: 0 15px 15px 0;
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.5);
+    background: rgba(31, 41, 55, 0.95);
+    backdrop-filter: blur(12px);
+    display: flex;
+    flex-direction: column;
+}
+#sidebar.collapsed {
+    width: 64px;
+}
+#sidebar.collapsed .label {
+    display: none;
+}
+#sidebar.collapsed .submenu {
+    display: none !important;
+}
+
+/* Sidebar header */
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.hamburger i {
+    display: inline-block;
+    transition: transform 0.3s;
+}
+#sidebar.collapsed .hamburger i {
+    transform: rotate(90deg);
+}
+
+/* Sidebar items */
+.sidebar-item {
+    transition:
+        background 0.3s,
+        transform 0.2s;
+    border-radius: 12px;
+    position: relative;
+}
+.sidebar-item:hover {
+    background: #374151;
+    transform: translateX(3px);
+}
+.submenu a {
+    transition: background 0.3s;
+}
+.submenu a:hover {
+    background: #4b5563;
+}
+
+/* Submenu chevron */
+.submenu-toggle .chevron {
+    transition: transform 0.3s;
+}
+.submenu.active + .chevron {
+    transform: rotate(180deg);
+}
+
+/* Tooltip */
+.tooltip {
+    display: none;
+    position: absolute;
+    left: 70px;
+    background: #111;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 50;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+#sidebar.collapsed .sidebar-item:hover .tooltip {
+    display: block;
+}
+
+#sidebar.collapsed .sidebar-item > .label,
+#sidebar.collapsed .sidebar-item > svg,
+#sidebar.collapsed .submenu {
+    display: none !important;
 }
 
 /* Scrollbar tipis di sisi kanan (default) */
 .scrollbar-thin {
-    scrollbar-width: thin; 
+    scrollbar-width: thin;
     scrollbar-color: #3b82f6 #1f2937;
 }
 
@@ -36,9 +134,9 @@
 }
 
 .custom-zoom a {
-    display: flex;                 /* pakai flex untuk centering */
-    justify-content: center;       /* horizontal center */
-    align-items: center;           /* vertical center */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 28px;
     height: 28px;
     background-color: #1f2937;
@@ -50,7 +148,10 @@
     border-radius: 50%;
     cursor: pointer;
     margin-bottom: 4px;
-    transition: background-color 0.25s ease, color 0.25s ease, transform 0.2s ease;
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease,
+        transform 0.2s ease;
 }
 
 .custom-zoom a:hover {
@@ -61,4 +162,160 @@
 
 .custom-zoom a:last-child {
     margin-bottom: 0;
+}
+
+/* Custom Flatpickr UI */
+.flatpickr-calendar {
+    border-radius: 1.5rem !important;
+    border: 1px solid #f1f5f9 !important;
+    box-shadow:
+        0 20px 25px -5px rgb(0 0 0 / 0.1),
+        0 8px 10px -6px rgb(0 0 0 / 0.1) !important;
+    padding: 10px !important;
+    font-family: "Trebuchet MS", sans-serif !important;
+}
+
+.flatpickr-day.selected {
+    background: #4f46e5 !important; /* Indigo-600 */
+    border-color: #4f46e5 !important;
+    border-radius: 12px !important;
+}
+
+.flatpickr-day:hover {
+    background: #f1f5f9 !important;
+    border-radius: 12px !important;
+}
+
+.modern-datepicker-shadow {
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Pastikan dropdown TomSelect selalu muncul di depan elemen lain */
+.ts-custom-full-width .ts-dropdown {
+    z-index: 100 !important;
+    position: absolute !important;
+    background: white !important;
+    border-radius: 1rem !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2) !important;
+    margin-top: 5px !important;
+}
+
+.ts-custom-full-width .ts-control {
+    min-height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    border-radius: 1rem !important;
+}
+
+.grid {
+    overflow: visible !important;
+}
+
+@keyframes shimmer {
+    100% {
+        transform: translateX(100%);
+    }
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Efek Pop Muncul */
+#colorPickerPopup:not(.hidden) {
+    animation: popIn 0.2s ease-out forwards;
+}
+
+@keyframes popIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.95) translateY(10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(59, 130, 246, 0.4);
+    border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(59, 130, 246, 0.7);
+}
+
+/* Styling Modal agar mirip image_0db3a4.png */
+.custom-dark-popup {
+    background: #111827 !important; /* Dark blue-black */
+    color: #ffffff !important;
+    border-radius: 12px !important;
+    border: 1px solid #374151;
+}
+.custom-dark-title {
+    font-size: 1.25rem !important;
+    font-weight: 600 !important;
+}
+.swal-field-label {
+    text-align: left;
+    color: #9ca3af;
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+    padding-left: 5px;
+}
+.custom-dark-input {
+    background: #1f2937 !important;
+    border: 1px solid #4b5563 !important;
+    color: #38bdf8 !important; /* Warna angka biru muda */
+    font-weight: bold !important;
+    margin: 0 !important;
+    width: 100% !important;
+}
+.btn-save-purple {
+    background-color: #6366f1 !important; /* Indigo */
+    padding: 8px 24px !important;
+}
+.btn-cancel-gray {
+    background-color: #4b5563 !important;
+    padding: 8px 24px !important;
 }
